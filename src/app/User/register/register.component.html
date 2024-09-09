@@ -8,7 +8,7 @@
       <div class="card" style="--bs-card-border-color: unset;">
         <div class="row no-gutters">
           <div class="col-md-6">
-            <img src="https://d1uavkppl1300i.cloudfront.net/images/online-entrance-exam.png" class="card-img" alt="Registration Image">
+            <img src="https://thinkexam.com/blog/wp-content/uploads/2021/12/4.-Impact-of-online-exam-software-on-students-and-teachers-in-virtual-schooling.jpg" class="card-img" alt="Registration Image">
           </div>
           <div class="col-md-6 border rounded">
             <div class="card-body">
@@ -54,7 +54,7 @@
                     [ngClass]="{'is-invalid': submitted && registerForm.get('password')?.invalid}">
                   <div *ngIf="submitted && registerForm.get('password')?.invalid" class="invalid-feedback d-block">
                     <div *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</div>
-                    <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</div>
+                    <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Passwords contain an uppercase character, lowercase character, a digit, and a non-alphanumeric character</div>
                   </div>
                 </div>
 
@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Register</button>
+                  <button type="submit" class="btn custom-btn">Register</button>
                 </div>
               </form>
 

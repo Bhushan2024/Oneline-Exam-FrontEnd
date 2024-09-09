@@ -3,41 +3,42 @@
     <h2 class="text-center mb-5">Admin Dashboard</h2>
     
     <div class="row justify-content-center">
-      <!-- Results Card -->
-      <div class="col-md-4">
-        <div class="card text-center shadow-sm mb-4">
-          <div class="card-body">
-            <i class="fas fa-file-alt fa-3x mb-3 text-primary"></i>
-            <h5 class="card-title">All Results</h5>
-            <p class="card-text">View and manage all exam results.</p>
-            <button class="btn btn-primary" (click)="navigateTo('/admin-result')">Go to Results</button>
-          </div>
-        </div>
-      </div>
+      
   
       <!-- Exams Card -->
       <div class="col-md-4">
-        <div class="card text-center shadow-sm mb-4">
+        <div class="card text-center shadow-sm mb-4 admin-card">
           <div class="card-body">
-            <i class="fas fa-list-alt fa-3x mb-3 text-success"></i>
+            <i class="fas fa-list-alt fa-3x mb-3 text-theme-success"></i>
             <h5 class="card-title">Exams</h5>
             <p class="card-text">View and manage all exams.</p>
-            <button class="btn btn-success" (click)="navigateTo('/admin-exam')">Go to Exams</button>
+            <button class="btn btn-theme-success" (click)="navigateTo('/admin-exam')">Go to Exams</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Results Card -->
+      <div class="col-md-4">
+        <div class="card text-center shadow-sm mb-4 admin-card">
+          <div class="card-body">
+            <i class="fas fa-file-alt fa-3x mb-3 text-theme-primary"></i>
+            <h5 class="card-title">All Results</h5>
+            <p class="card-text">View and manage all exam results.</p>
+            <button class="btn btn-theme-primary" (click)="navigateTo('/admin-result')">Go to Results</button>
           </div>
         </div>
       </div>
   
       <!-- Reports Card -->
       <div class="col-md-4">
-        <div class="card text-center shadow-sm mb-4">
+        <div class="card text-center shadow-sm mb-4 admin-card">
           <div class="card-body">
-            <i class="fas fa-chart-bar fa-3x mb-3 text-info"></i>
+            <i class="fas fa-chart-bar fa-3x mb-3 text-theme-info"></i>
             <h5 class="card-title">Reports</h5>
             <p class="card-text">Generate and view reports.</p>
-            <button class="btn btn-info" (click)="navigateTo('/admin-report')">Go to Reports</button>
+            <button class="btn btn-theme-info" (click)="navigateTo('/admin-report')">Go to Reports</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  
+</div>

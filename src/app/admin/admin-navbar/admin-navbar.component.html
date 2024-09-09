@@ -1,44 +1,39 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" routerLink="/">
-      <img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" >
-      Examm
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+    <a class="navbar-brand" routerLink="/admin-dashboard">
+        <img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+        Examm
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-  
-        <!-- Links visible only when logged in -->
-        <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/admin-dashboard'}">
-          <a class="nav-link" routerLink="/admin-dashboard">Home</a>
-        </li>
-        <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/admin-exam'}">
-          <a class="nav-link" routerLink="/admin-exam">Exam</a>
-        </li>
-        <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/admin-section'}">
-          <a class="nav-link" routerLink="/admin-section">Section</a>
-        </li>
-        <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/admin-result'}">
-          <a class="nav-link" routerLink="/admin-result">Result</a>
-        </li>
-        <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/admin-report'}">
-          <a class="nav-link" routerLink="/admin-report">Reports</a>
-        </li>
-        
-  
-        <!-- Dropdown for user account and logout -->
-        <li class="nav-item dropdown" *ngIf="isLoggedIn">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Admin
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" routerLink="/account">Account</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
-          </div>
-        </li>
-      </ul>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/admin-dashboard'}">
+                <a class="nav-link" routerLink="/admin-dashboard">Home</a>
+            </li>
+            <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/admin-exam'}">
+                <a class="nav-link" routerLink="/admin-exam">Exam</a>
+            </li>
+            <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/admin-section'}">
+                <a class="nav-link" routerLink="/admin-section">Section</a>
+            </li>
+            <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/admin-result'}">
+                <a class="nav-link" routerLink="/admin-result">Result</a>
+            </li>
+            <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/admin-report'}">
+                <a class="nav-link" routerLink="/admin-report">Reports</a>
+            </li>
+            <li class="nav-item dropdown" *ngIf="isLoggedIn">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Admin
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" routerLink="/account">Account</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+                </div>
+            </li>
+        </ul>
     </div>
   </nav>
   

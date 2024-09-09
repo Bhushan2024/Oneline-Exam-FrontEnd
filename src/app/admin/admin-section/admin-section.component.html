@@ -19,22 +19,54 @@
       </div>
       <div class="card-body">
         <form [formGroup]="sectionForm" (ngSubmit)="addSection()">
+          
+          <!-- Section Title -->
           <div class="form-group">
             <label for="sectionTitle">Section Title</label>
             <input id="sectionTitle" class="form-control" formControlName="title" placeholder="Enter section title" />
+            <div *ngIf="sectionForm.get('title')?.invalid && sectionForm.get('title')?.touched" class="text-danger">
+              <div *ngIf="sectionForm.get('title')?.errors?.['required']">Title is required.</div>
+              <div *ngIf="sectionForm.get('title')?.errors?.['minlength']">Title must be at least 5 characters long.</div>
+            </div>
           </div>
+          
+          <!-- Number of Questions -->
           <div class="form-group">
             <label for="numberOfQuestions">Number of Questions</label>
             <input id="numberOfQuestions" class="form-control" formControlName="numberOfQuestions" type="number" />
+            <div *ngIf="sectionForm.get('numberOfQuestions')?.invalid && sectionForm.get('numberOfQuestions')?.touched" class="text-danger">
+              <div *ngIf="sectionForm.get('numberOfQuestions')?.errors?.['required']">Number of questions is required.</div>
+              <div *ngIf="sectionForm.get('numberOfQuestions')?.errors?.['min']">Number of questions must be at least 1.</div>
+              <div *ngIf="sectionForm.get('numberOfQuestions')?.errors?.['max']">Number of questions cannot exceed 100.</div>
+            </div>
           </div>
+
+          <!-- Total Marks -->
           <div class="form-group">
             <label for="totalMarks">Total Marks</label>
             <input id="totalMarks" class="form-control" formControlName="totalMarks" type="number" />
           </div>
+          
+          <!-- Passing Marks -->
           <div class="form-group">
             <label for="passingMarks">Passing Marks</label>
             <input id="passingMarks" class="form-control" formControlName="passingMarks" type="number" />
+            <div *ngIf="sectionForm.hasError('invalidMarks')" class="text-danger">
+              Passing marks should be less than total marks.
+            </div>
           </div>
+
+          <!-- Weightage -->
+          <div class="form-group">
+            <label for="weightage">Section Weightage %</label>
+            <input id="weightage" class="form-control" formControlName="weightage" type="number"
+              placeholder="Enter section weightage (1-100)" min="1" max="100" />
+            <div *ngIf="sectionForm.get('weightage')?.invalid && sectionForm.get('weightage')?.touched" class="text-danger">
+              Weightage must be between 1 and 100.
+            </div>
+          </div>
+
+          <!-- Add Section Button -->
           <button type="submit" class="btn btn-primary btn-block mt-3">Add Section</button>
         </form>
       </div>
@@ -48,10 +80,10 @@
         <h5>{{ section.title }}</h5>
         <div>
           <button class="btn btn-link" (click)="toggleSection(section.sectionId)">
-            {{ isSectionExpanded(section.sectionId) ? 'Minimize' : 'Maximize' }}
+            {{ isSectionExpanded(section.sectionId) ? ' Collapse' : 'Expand' }}
           </button>
-          <button class="btn btn-info btn-sm" (click)="openEditPopup(section)">Edit Section</button>
-          <button class="btn btn-danger btn-sm" (click)="removeSection(section.sectionId)">Remove Section</button>
+          <button class="btn btn-warning btn-sm" (click)="openEditPopup(section)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="removeSection(section.sectionId)">Delete</button>
         </div>
       </div>
 
@@ -60,9 +92,10 @@
         <div *ngFor="let question of section.questions" class="question mt-3">
           <div class="d-flex justify-content-between align-items-center question-header">
             <p>{{ question.questionText }}</p>
+            <!-- <p>{{question.}}</p> HARPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
             <div>
               <button class="btn btn-link" (click)="toggleQuestion(question.questionId)">
-                {{ isQuestionExpanded(question.questionId) ? 'Minimize' : 'Maximize' }}
+                {{ isQuestionExpanded(question.questionId) ? 'Collapse' : 'Expand' }}
               </button>
               <button class="btn btn-danger btn-sm" (click)="removeQuestion(section, question.questionId)">Remove
                 Question</button>
@@ -75,6 +108,7 @@
               <li *ngFor="let option of question.options"
                 class="list-group-item d-flex justify-content-between align-items-center">
                 {{ option.optionText }} ({{ option.isCorrect ? 'Correct' : 'Incorrect' }})
+                [ Marks : {{option.marks }} ]
               </li>
             </ul>
           </div>
@@ -93,6 +127,37 @@
                   placeholder="Enter question text" />
               </div>
 
+              <!-- Radio buttons for media inclusion -->
+              <div class="form-group mt-3">
+                <label>Include Image/Video:</label>
+                <div class="form-check">
+                  <input type="radio" id="includeMediaYes" class="form-check-input" value="1"
+                    formControlName="includeMedia" />
+                  <label for="includeMediaYes" class="form-check-label">Yes</label>
+                </div>
+                <div class="form-check">
+                  <input type="radio" id="includeMediaNo" class="form-check-input" value="0"
+                    formControlName="includeMedia" />
+                  <label for="includeMediaNo" class="form-check-label">No</label>
+                </div>
+              </div>
+
+              <!-- Conditionally show media type dropdown and URL input if "Yes" is selected -->
+              <div *ngIf="questionForm.get('includeMedia')?.value === '1'" class="form-group mt-3">
+                <label for="mediaType">Select Media Type:</label>
+                <select id="mediaType" class="form-control" formControlName="mediaType">
+                  <option value="" disabled>Select type</option>
+                  <option value="1">Image</option>
+                  <option value="2">Video</option>
+                </select>
+              </div>
+
+              <div *ngIf="questionForm.get('includeMedia')?.value === '1'" class="form-group mt-3">
+                <label for="mediaUrl">Media URL:</label>
+                <input id="mediaUrl" class="form-control" formControlName="mediaUrl" placeholder="Enter media URL" />
+              </div>
+
+
               <!-- Add Option Form -->
               <h6>Add Options:</h6>
               <form [formGroup]="optionForm" (ngSubmit)="addOption()">
@@ -103,7 +168,13 @@
                 </div>
                 <div class="form-group">
                   <label for="isCorrect">Is Correct?</label>
-                  <input id="isCorrect" type="checkbox" formControlName="isCorrect" />
+                  <input id="isCorrect" type="checkbox"  class="form-check-input" formControlName="isCorrect" />
+                </div>
+                <br>
+                <div class="form-group">
+                  <label for="marks">Marks for this Option</label> <!-- New Marks field -->
+                  <input id="marks" class="form-control" type="number" formControlName="marks"
+                    placeholder="Marks for Option" />
                 </div>
                 <button type="submit" class="btn btn-secondary">Add Option</button>
               </form>
@@ -157,6 +228,15 @@
           <div class="form-group">
             <label for="passingMarks">Passing Marks</label>
             <input id="passingMarks" class="form-control" formControlName="passingMarks" type="number" />
+          </div>
+          <div class="form-group">
+            <label for="weightage">Section Weightage %</label>
+            <input id="weightage" class="form-control" formControlName="weightage" type="number"
+              placeholder="Enter section weightage (1-100)" min="1" max="100" />
+            <div *ngIf="sectionForm.get('weightage')?.invalid && sectionForm.get('weightage')?.touched"
+              class="text-danger">
+              Weightage must be between 1 and 100.
+            </div>
           </div>
           <button type="submit" class="btn btn-primary btn-block mt-3">Save Changes</button>
         </form>

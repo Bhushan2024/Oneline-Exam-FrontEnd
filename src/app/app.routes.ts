@@ -19,7 +19,7 @@ export const routes: Routes = [
     { path: 'admin-result', component: AdminResultComponent, canActivate: [authGuard], data: { role: ['Admin'] } },
     { path: 'admin-report', component: AdminReportComponent, canActivate: [authGuard], data: { role: ['Admin'] } },
     { path: 'admin-exam', component: AdminExamComponent, canActivate: [authGuard], data: { role: ['Admin'] } },
-    { path: 'admin-section', component: AdminSectionComponent },
+    { path: 'admin-section', component: AdminSectionComponent, canActivate: [authGuard], data: { role: ['Admin'] } },
 
     { path: 'user-dashboard', component: UserComponent, canActivate: [authGuard], data: { role: ['User'] } },
     { path: 'exam', component: ExamComponent, canActivate: [authGuard], data: { role: ['User'] } },

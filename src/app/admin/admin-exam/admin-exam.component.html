@@ -3,8 +3,8 @@
 <div class="container">
     <!-- Button section for adding a new exam and navigating to admin section -->
     <div class="d-flex justify-content-between mb-3">
-      <button class="btn btn-primary" (click)="openModal()">Add New Exam</button>
-      <button class="btn btn-secondary" routerLink="/admin-section">Section</button>
+      <button class="btn btn-theme-primary" (click)="openModal()">Add New Exam</button>
+      <button class="btn btn-theme-secondary" routerLink="/admin-section">Section</button>
     </div>
   
     <!-- Display exams in card format -->
@@ -20,12 +20,12 @@
             <p><strong>Randomized:</strong> {{ exam.isRandmized ? 'Yes' : 'No' }}</p>
             <p><strong>Published:</strong> {{ exam.isPublished ? 'Yes' : 'No' }}</p>
             <!-- Edit button -->
-            <button class="btn btn-secondary" (click)="openModal(exam)">Edit</button>
+            <button class="btn btn-theme-secondary" (click)="openModal(exam)">Edit</button>
             <!-- Toggle status buttons -->
-            <button class="btn btn-warning ms-2" (click)="togglePublishedStatus(exam)">
+            <button class="btn btn-theme-warning ms-2" (click)="togglePublishedStatus(exam)">
               {{ exam.isPublished ? 'Unpublish' : 'Publish' }}
             </button>
-            <button class="btn btn-info ms-2" (click)="toggleRandomizedStatus(exam)">
+            <button class="btn btn-theme-info ms-2" (click)="toggleRandomizedStatus(exam)">
               {{ exam.isRandmized ? 'Unrandomize' : 'Randomize' }}
             </button>
           </div>
@@ -90,12 +90,11 @@
                   <input type="checkbox" id="isRandmized" formControlName="isRandmized" />
                 </div>
   
-                <button type="submit" class="btn btn-primary">{{ editMode ? 'Update Exam' : 'Create Exam' }}</button>
+                <button type="submit" class="btn btn-theme-primary">{{ editMode ? 'Update Exam' : 'Create Exam' }}</button>
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  
+</div>

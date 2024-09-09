@@ -27,12 +27,13 @@ export class AdminSectionComponent implements OnInit {
   expandedQuestions: Set<number> = new Set<number>(); // Track expanded questions
   selectedSectionForEdit: SectionGetDTO | null = null; // Track the selected section for editing
   isEditMode = false;  // Control for showing the edit section popup
+  mediaUrl = '';
 
   constructor(
     private fb: FormBuilder,
     private sectionService: SectionActionService,
     private examService: ExamService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initializeForms();
@@ -45,26 +46,49 @@ export class AdminSectionComponent implements OnInit {
       title: ['', Validators.required],
       numberOfQuestions: [0, [Validators.required, Validators.min(1)]],
       totalMarks: [0, Validators.required],
-      passingMarks: [0, Validators.required]
+      passingMarks: [0, Validators.required],
+      weightage: [null, [Validators.required, Validators.min(1), Validators.max(100)]]  // Add this field
     });
 
-    this.editSectionForm = this.fb.group({
-      title: ['', Validators.required],
+    this.sectionForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(5)]],
       numberOfQuestions: [0, [Validators.required, Validators.min(1)]],
       totalMarks: [0, Validators.required],
-      passingMarks: [0, Validators.required]
-    });
+      passingMarks: [0, Validators.required],
+      weightage: [null, [Validators.required, Validators.min(1), Validators.max(100)]]
+    }, { validators: this.validateMarks }); // Apply custom validator for marks
+    
+    this.editSectionForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(5)]],
+      numberOfQuestions: [, [Validators.required, Validators.min(1)]],
+      totalMarks: [, Validators.required],
+      passingMarks: [, Validators.required],
+      weightage: [null, [Validators.required, Validators.min(1), Validators.max(100)]]
+    }, { validators: this.validateMarks }); // Apply custom validator for marks
+    
 
     this.questionForm = this.fb.group({
       questionText: ['', Validators.required],
-      isMultipleChoice: [false, Validators.required]
+      isMultipleChoice: [false, Validators.required],
+      includeMedia: ['0'], // Default to 'No' for including media
+      mediaType: [''], // Media type (Image/Video)
+      mediaUrl: ['']   // Media URL      
     });
 
     this.optionForm = this.fb.group({
       optionText: ['', Validators.required],
-      isCorrect: [false]
+      isCorrect: [false],
+      marks: []  // Add marks field with validation
     });
   }
+
+  // Custom validator function for passing marks vs total marks
+validateMarks(formGroup: FormGroup): { [key: string]: any } | null {
+  const totalMarks = formGroup.get('totalMarks')?.value;
+  const passingMarks = formGroup.get('passingMarks')?.value;
+
+  return totalMarks >= passingMarks ? null : { 'invalidMarks': true }; // Return error if invalid
+}
 
   // Load exams from the service
   loadExams(): void {
@@ -104,7 +128,8 @@ export class AdminSectionComponent implements OnInit {
       numberOfQuestions: this.sectionForm.value.numberOfQuestions,
       totalMarks: this.sectionForm.value.totalMarks,
       passingMarks: this.sectionForm.value.passingMarks,
-      questions: []
+      questions: [],
+      weightage: this.sectionForm.value.weightage / 100,
     };
 
     this.sectionService.createSection(newSection).subscribe(() => {
@@ -114,64 +139,69 @@ export class AdminSectionComponent implements OnInit {
     });
   }
 
-// Function to add a new option
-addOption(): void {
-  if (this.optionForm.invalid) {
-    return;
-  }
-
-  const newOption: OptionPostDTO = {
-    optionText: this.optionForm.value.optionText,
-    isCorrect: this.optionForm.value.isCorrect || false
-  };
-
-  this.newQuestionOptions.push(newOption);  // Add the option to the new question
-  this.optionForm.reset();
-  console.log('Option added:', newOption);
-
-  // Check if more than one correct option is selected and set isMultipleChoice accordingly
-  const correctOptionsCount = this.newQuestionOptions.filter(option => option.isCorrect).length;
-  this.questionForm.patchValue({
-    isMultipleChoice: correctOptionsCount > 1  // Set true if more than one correct option
-  });
-}
-
-// Function to save the question
-saveQuestion(section: SectionGetDTO): void {
-  if (this.questionForm.invalid || this.newQuestionOptions.length === 0) {
-    return;  // Ensure all question data is entered
-  }
-
-  const newQuestion: QuestionPostDTO = {
-    questionText: this.questionForm.value.questionText,
-    isMultipleChoice: this.questionForm.value.isMultipleChoice,  // Send isMultipleChoice flag
-    createdDate: new Date(),
-    options: this.newQuestionOptions.map(option => ({
-      optionText: option.optionText,
-      isCorrect: option.isCorrect
-    }))
-  };
-
-  console.log('Question Data to be sent:', newQuestion);
-
-  this.sectionService.addQuestion(section.sectionId, newQuestion).subscribe({
-    next: () => {
-      section.questions.push({
-        ...newQuestion,
-        questionId: Math.random(),  // Temporary client-side ID
-        options: newQuestion.options.map((option, index) => ({
-          optionId: index + 1,  // Temporary ID for frontend display
-          ...option
-        }))
-      });
-      console.log('Question added successfully');
-      this.resetQuestionForm();  // Reset the form and option list
-    },
-    error: (err) => {
-      console.error('Error adding question:', err);
+  // Function to add a new option
+  addOption(): void {
+    if (this.optionForm.invalid) {
+      return;
     }
-  });
-}
+
+    const newOption: OptionPostDTO = {
+      optionText: this.optionForm.value.optionText,
+      isCorrect: this.optionForm.value.isCorrect || false,
+      marks: this.optionForm.value.marks  // Add the marks value from form
+    };
+
+    this.newQuestionOptions.push(newOption);  // Add the option to the new question
+    this.optionForm.reset();
+    console.log('Option added:', newOption);
+
+    // Check if more than one correct option is selected and set isMultipleChoice accordingly
+    const correctOptionsCount = this.newQuestionOptions.filter(option => option.isCorrect).length;
+    this.questionForm.patchValue({
+      isMultipleChoice: correctOptionsCount > 1  // Set true if more than one correct option
+    });
+  }
+
+  // Function to save the question
+  saveQuestion(section: SectionGetDTO): void {
+    if (this.questionForm.invalid || this.newQuestionOptions.length === 0) {
+      return;  // Ensure all question data is entered
+    }
+
+    const newQuestion: QuestionPostDTO = {
+      questionText: this.questionForm.value.questionText,
+      isMultipleChoice: this.questionForm.value.isMultipleChoice, // Send isMultipleChoice flag
+      createdDate: new Date(),
+      options: this.newQuestionOptions.map(option => ({
+        optionText: option.optionText,
+        isCorrect: option.isCorrect,
+        marks: option.marks
+      })),
+      // Convert mediaType to a number before sending
+      mediaType: this.questionForm.get('includeMedia')?.value === '1' ? parseInt(this.questionForm.value.mediaType, 10) : 0,
+      mediaUrl: this.questionForm.get('includeMedia')?.value === '1' ? this.questionForm.value.mediaUrl : '',
+    };
+
+    console.log('Question Data to be sent:', newQuestion);
+
+    this.sectionService.addQuestion(section.sectionId, newQuestion).subscribe({
+      next: () => {
+        section.questions.push({
+          ...newQuestion,
+          questionId: Math.random(),  // Temporary client-side ID
+          options: newQuestion.options.map((option, index) => ({
+            optionId: index + 1,  // Temporary ID for frontend display
+            ...option
+          }))
+        });
+        console.log('Question added successfully');
+        this.resetQuestionForm();  // Reset the form and option list
+      },
+      error: (err) => {
+        console.error('Error adding question:', err);
+      }
+    });
+  }
 
 
   // Open the edit popup with pre-filled section data
@@ -183,7 +213,8 @@ saveQuestion(section: SectionGetDTO): void {
       title: section.title,
       numberOfQuestions: section.numberOfQuestions,
       totalMarks: section.totalMarks,
-      passingMarks: section.passingMarks
+      passingMarks: section.passingMarks,
+      weightage: section.weightage * 100
     });
   }
 
@@ -206,7 +237,8 @@ saveQuestion(section: SectionGetDTO): void {
       numberOfQuestions: this.editSectionForm.value.numberOfQuestions,
       totalMarks: this.editSectionForm.value.totalMarks,
       passingMarks: this.editSectionForm.value.passingMarks,
-      questions: [] // Always send an empty array for questions
+      questions: [], // Always send an empty array for questions,
+      weightage: this.editSectionForm.value.weightage / 100
     };
 
     console.log('Edited Section Data:', updatedSection);
@@ -223,8 +255,8 @@ saveQuestion(section: SectionGetDTO): void {
     });
   }
 
-  
-  
+
+
 
   // Remove an option from the new question (before saving)
   removeNewOption(optionText: string): void {
@@ -233,22 +265,22 @@ saveQuestion(section: SectionGetDTO): void {
   }
 
   // Remove a section and call the API
- // Remove a section and call the API after confirmation
-removeSection(sectionId: number): void {
-  const confirmation = window.confirm('Are you sure you want to delete this section?');
-  
-  if (confirmation) {
-    this.sectionService.deleteSection(sectionId).subscribe({
-      next: () => {
-        this.sections = this.sections.filter(section => section.sectionId !== sectionId);
-        console.log('Section removed with ID:', sectionId);
-      },
-      error: (err) => {
-        console.error('Error removing section:', err);
-      }
-    });
+  // Remove a section and call the API after confirmation
+  removeSection(sectionId: number): void {
+    const confirmation = window.confirm('Are you sure you want to delete this section?');
+
+    if (confirmation) {
+      this.sectionService.deleteSection(sectionId).subscribe({
+        next: () => {
+          this.sections = this.sections.filter(section => section.sectionId !== sectionId);
+          console.log('Section removed with ID:', sectionId);
+        },
+        error: (err) => {
+          console.error('Error removing section:', err);
+        }
+      });
+    }
   }
-}
 
 
   // Remove a saved question from the section
@@ -300,5 +332,5 @@ removeSection(sectionId: number): void {
     this.newQuestionOptions = [];
   }
 
- 
+
 }

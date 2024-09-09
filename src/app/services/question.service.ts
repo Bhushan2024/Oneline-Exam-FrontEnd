@@ -15,6 +15,8 @@ export interface Question {
   questionText: string;
   isMultipleChoice: boolean;
   options: Option[];
+  mediaType: number;
+  mediaUrl: string;
 }
 
 @Injectable({

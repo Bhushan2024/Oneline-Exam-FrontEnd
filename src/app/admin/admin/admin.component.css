@@ -1,48 +1,80 @@
 /* Styling for the admin dashboard cards */
 .admin-card {
-    border-radius: 15px;
-    transition: all 0.3s ease;
-    background-color: #f8f9fa;
-  }
-  
-  .admin-card .card-body {
-    min-height: 150px;
-  }
-  
-  .admin-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  }
-  
-  .admin-card h5 {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .admin-card .card-text {
-    font-size: 14px;
-    color: #6c757d;
-  }
-  
-  /* Hover effects for the icons and footer */
-  .admin-card:hover i {
-    color: #ffffff !important;
-  }
-  
-  .admin-card .card-footer {
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
-  .admin-card .bg-primary:hover {
-    background-color: #0062cc !important;
-  }
-  
-  .admin-card .bg-success:hover {
-    background-color: #28a745 !important;
-  }
-  
-  .admin-card .bg-info:hover {
-    background-color: #17a2b8 !important;
-  }
-  
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  background-color: #f8f9fa;
+}
+
+.admin-card .card-body {
+  min-height: 150px;
+}
+
+.admin-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.admin-card h5 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.admin-card .card-text {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+/* Custom Theme Colors */
+.text-theme-primary {
+  color: #4e9ad0 !important;
+}
+
+.text-theme-success {
+  color: #4e9ad0 !important;
+}
+
+.text-theme-info {
+  color: #8CBEE2 !important;
+}
+
+/* Button theme colors */
+.btn-theme-primary {
+  background-color: #4e9ad0;
+  border-color: #4e9ad0;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn-theme-primary:hover {
+  background-color: #8CBEE2;
+  border-color: #8CBEE2;
+}
+
+.btn-theme-success {
+  background-color: #4e9ad0;
+  border-color: #4e9ad0;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn-theme-success:hover {
+  background-color: #8CBEE2;
+  border-color: #8CBEE2;
+}
+
+.btn-theme-info {
+  background-color: #8CBEE2;
+  border-color: #8CBEE2;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn-theme-info:hover {
+  background-color: #4e9ad0;
+  border-color: #4e9ad0;
+}
+
+/* Hover effects for the icons */
+.admin-card:hover i {
+  color: #ffffff !important;
+}

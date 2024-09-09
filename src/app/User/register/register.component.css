@@ -23,6 +23,18 @@
 .form-group{
   margin-top: 3%;
 }
+.custom-btn {
+  background-color: #4e9ad0; /* Purple-blue button color */
+  border-color: #4e9ad0;
+  color: #ffffff;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.custom-btn:hover {
+  background-color: #8CBEE2; /* Light blue on hover */
+  border-color: #8CBEE2;
+  color: #ffffff;
+}
 
 
 

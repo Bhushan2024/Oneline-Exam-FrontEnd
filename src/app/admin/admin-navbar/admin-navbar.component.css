@@ -1,42 +1,64 @@
-.navbar {
+.custom-navbar {
+    background: linear-gradient(90deg, #4e9ad0, #8CBEE2); /* Radiant gradient */
     height: 70px;
-    padding: 0px 20px;
-  }
-  
-  .navbar-nav .nav-item.active .nav-link {
+    padding: 0 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.navbar-brand {
+    color: #ffffff;
+    font-size: 1.2rem;
     font-weight: bold;
+}
+
+.navbar-toggler-icon {
+    background-color: #4e9ad0; /* Toggler icon */
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8); /* Default link color */
+    transition: color 0.3s ease, font-weight 0.3s ease;
+}
+
+.navbar-nav .nav-item.active .nav-link {
+    color: #ffffff; /* White for active link */
+    font-weight: bold; /* Bold for active link */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #4e9ad0; /* Highlight color on hover */
+}
+
+.navbar-nav .dropdown-menu {
+    background-color: #4e9ad0; /* Dropdown background */
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Dropdown shadow */
+}
+
+.navbar-nav .dropdown-item {
     color: #ffffff;
-  }
-  
-  .navbar-nav .nav-link {
-    color: rgba(255,255,255,0.7);
-  }
-  
-  .navbar-nav .nav-link:hover {
-    color: #ffffff;
-  }
-  
-  .navbar-nav .dropdown-menu {
-    background-color: #343a40;
-  }
-  
-  .navbar-nav .dropdown-menu .dropdown-item {
-    color: #ffffff;
-  }
-  
-  .navbar-nav .dropdown-menu .dropdown-item:hover {
-    background-color: #495057;
-  }
-  
-  .navbar-nav.ml-auto {
+}
+
+.navbar-nav .dropdown-item:hover {
+    background-color: #9fcff1; /* Dropdown item hover */
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-nav.ml-auto {
     margin-left: auto;
-  }
-  .navbar-nav.navbar-collapse {
-    margin-left: auto;
-  }
-  
-  
-  .dropdown-menu{
-    left: auto !important; 
+}
+
+.dropdown-menu {
+    left: auto !important;
     right: 10px;
-  }
+}
+
+/* Responsive styling for mobile */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+}
