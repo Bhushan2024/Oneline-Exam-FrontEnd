@@ -1,0 +1,56 @@
+/* Account Page Container */
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  /* Card Styling */
+  .card {
+    border-radius: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  /* Card Title */
+  .card-title {
+    font-size: 1.8rem;
+    color: #4e9ad0;
+    font-weight: bold;
+  }
+  
+  /* User Info Styling */
+  p {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Bold Text */
+  strong {
+    color: #4e9ad0;
+    font-weight: 600;
+  }
+  
+  /* Centering the text */
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Add padding to top of card */
+  .card-body {
+    padding: 30px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .card-title {
+      font-size: 1.5rem;
+    }
+  
+    p {
+      font-size: 1rem;
+    }
+  }
+  

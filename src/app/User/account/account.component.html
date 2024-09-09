@@ -1,0 +1,26 @@
+
+<app-navbar></app-navbar>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          <div class="card-body text-center">
+            <h2 class="card-title mb-4">Account Information</h2>
+  
+            <!-- Display user data if available -->
+            <div *ngIf="userData">
+              <p><strong>Username:</strong> {{ userData.userName }}</p>
+              <p><strong>Email:</strong> {{ userData.email }}</p>
+              <p><strong>Role:</strong> Student</p>
+            </div>
+  
+            <!-- Show loading if user data is not yet available -->
+            <div *ngIf="!userData">
+              <p>Loading user information...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

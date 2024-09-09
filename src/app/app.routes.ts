@@ -12,6 +12,7 @@ import { AdminReportComponent } from './admin/admin-report/admin-report.componen
 import { AdminExamComponent } from './admin/admin-exam/admin-exam.component';
 import { AdminSectionComponent } from './admin/admin-section/admin-section.component';
 import { ResultComponent } from './User/result/result.component';
+import { AccountComponent } from './User/account/account.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -26,6 +27,7 @@ export const routes: Routes = [
     { path: 'exam/:examId', component: SectionComponent, canActivate: [authGuard], data: { role: ['User'] } },
     { path: 'exam-result', component: ResultHistoryComponent, canActivate: [authGuard], data: { role: ['User'] } },
     { path: 'result', component: ResultComponent, canActivate: [authGuard], data: { role: ['User'] } },
+    { path: 'account', component: AccountComponent, canActivate: [authGuard], data: { role: ['User'] } },
 
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },

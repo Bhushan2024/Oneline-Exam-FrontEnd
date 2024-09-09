@@ -22,6 +22,6 @@ export class UserComponent {
   }
 
   goToProfile() {
-    this.router.navigate(['/profile']); // Assuming profile route is set
+    this.router.navigate(['/account']); // Assuming profile route is set
   }
 }
