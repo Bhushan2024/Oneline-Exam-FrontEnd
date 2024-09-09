@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Available Exams</h2>
+
+  <!-- Show a message if no exams are available -->
+  <div *ngIf="exams.length === 0" class="text-center">
+    <p>No exams available at the moment.</p>
+  </div>
+
+  <!-- Display exams -->
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let exam of exams">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ exam.title }}</h5>
+          <p class="card-text">{{ exam.description }}</p>
+          <p class="card-text">
+            <small class="text-muted">Start Date: {{ exam.startDate | date:'short' }}</small><br>
+            <small class="text-muted">End Date: {{ exam.endDate | date:'short' }}</small>
+          </p>
+          <button class="btn btn-success ml-2" (click)="startExam(exam)">Start Exam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

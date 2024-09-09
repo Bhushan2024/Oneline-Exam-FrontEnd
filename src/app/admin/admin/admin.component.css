@@ -1,0 +1,48 @@
+/* Styling for the admin dashboard cards */
+.admin-card {
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+  }
+  
+  .admin-card .card-body {
+    min-height: 150px;
+  }
+  
+  .admin-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-card h5 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .admin-card .card-text {
+    font-size: 14px;
+    color: #6c757d;
+  }
+  
+  /* Hover effects for the icons and footer */
+  .admin-card:hover i {
+    color: #ffffff !important;
+  }
+  
+  .admin-card .card-footer {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .admin-card .bg-primary:hover {
+    background-color: #0062cc !important;
+  }
+  
+  .admin-card .bg-success:hover {
+    background-color: #28a745 !important;
+  }
+  
+  .admin-card .bg-info:hover {
+    background-color: #17a2b8 !important;
+  }
+  

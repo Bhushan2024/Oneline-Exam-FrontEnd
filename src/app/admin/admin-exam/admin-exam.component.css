@@ -1,0 +1,99 @@
+/* Styling for the main card */
+.exam-card {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .exam-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Modal fade-in and fade-out animations */
+  .modal-fade {
+    animation: slide-down 0.5s forwards;
+  }
+  
+  @keyframes slide-down {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slide-up {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+  }
+  
+  /* Modal backdrop effect */
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+  }
+  
+  /* Modal dialog */
+  .modal-dialog {
+    animation: slide-down 0.5s ease;
+  }
+  
+  /* Style for dull background when popup is active */
+  .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .modal-content {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+  }
+  
+  /* Close button styles */
+  .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .btn-close:hover {
+    color: #000;
+  }
+  
+  /* Button styles for hover effect */
+  .btn {
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #6c757d;
+  }
+  
+  .btn-warning:hover {
+    background-color: #d39e00;
+  }
+  
+  .btn-info:hover {
+    background-color: #138496;
+  }
+  

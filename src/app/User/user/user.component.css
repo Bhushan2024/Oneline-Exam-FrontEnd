@@ -1,0 +1,29 @@
+.container {
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .card {
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 25px;
+  }
+  

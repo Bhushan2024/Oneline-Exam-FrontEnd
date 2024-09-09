@@ -1,0 +1,72 @@
+<app-admin-navbar></app-admin-navbar>
+
+<div class="container mt-4">
+    <h2 class="text-center">All Exam Results</h2>
+  
+    <!-- Search and Filters -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="form-group">
+        <input type="text" class="form-control" [(ngModel)]="searchTerm" (input)="search()" placeholder="Search by user or exam">
+      </div>
+  
+      <div class="form-group ml-4">
+        <select class="form-control" [(ngModel)]="percentageFilter" (change)="applyPercentageFilter()">
+          <option value="all">All Results</option>
+          <option value="top20">Top 20% Scores</option>
+          <option value="top50">Top 50% Scores</option>
+          <option value="bottom20">Bottom 20% Scores</option>
+        </select>
+      </div>
+      
+      <button class="btn btn-success" (click)="downloadCSV()">Download CSV</button>
+    </div>
+  
+    <!-- Show error message if any -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- Show exam results in a grid format -->
+    <div *ngIf="paginatedResults.length > 0" class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th (click)="sortResults('username')">User Name</th>
+            <th (click)="sortResults('email')">Email</th>
+            <th (click)="sortResults('examTitle')">Exam Title</th>
+            <th (click)="sortResults('totalScore')">Score</th>
+            <th (click)="sortResults('percentage')">Percentage</th>
+            <th (click)="sortResults('passed')">Passed</th>
+            <th (click)="sortResults('attemptNumber')">Attempt Number</th>
+            <th (click)="sortResults('')">Exam Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of paginatedResults">
+            <td>{{ result.username }}</td>
+            <td>{{ result.email }}</td>
+            <td>{{ result.examTitle }}</td>
+            <td>{{ result.totalScore }}</td>
+            <td>{{ result.percentage }}%</td>
+            <td>{{ result.passed ? 'Yes' : 'No' }}</td>
+            <td>{{ result.attemptNumber }}</td>
+            <td>{{ result.completedDate }}</td>
+            
+          </tr>
+        </tbody>
+      </table>
+  
+      <!-- Pagination Controls -->
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" (click)="currentPage = currentPage - 1">Previous</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage * pageSize >= filteredResults.length">
+            <a class="page-link" (click)="currentPage = currentPage + 1">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  

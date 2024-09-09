@@ -1,0 +1,47 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" routerLink="/">
+      <img src="/assets/logo.png" width="30" height="30" class="d-inline-block align-top" >
+      Examm
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <!-- Register link, visible only on the login page -->
+        <li class="nav-item" *ngIf="!isLoggedIn && router.url === '/login'">
+          <a class="nav-link" routerLink="/register">Register</a>
+        </li>
+  
+        <!-- Login link, visible only on the register page -->
+        <li class="nav-item" *ngIf="!isLoggedIn && router.url === '/register'">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+  
+        <!-- Links visible only when logged in -->
+        <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/user-dashboard'}">
+          <a class="nav-link" routerLink="/user-dashboard">Home</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/exam'}">
+          <a class="nav-link" routerLink="/exam">Exam</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn" [ngClass]="{'active': router.url === '/result-history'}">
+          <a class="nav-link" routerLink="/result">Result</a>
+        </li>
+        
+  
+        <!-- Dropdown for user account and logout -->
+        <li class="nav-item dropdown" *ngIf="isLoggedIn">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            User
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" routerLink="/account">Account</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  

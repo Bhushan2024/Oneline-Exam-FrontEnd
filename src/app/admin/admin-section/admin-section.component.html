@@ -1,0 +1,166 @@
+<app-admin-navbar></app-admin-navbar>
+<div class="container mt-5">
+  <!-- Dropdown to select an exam -->
+  <div class="form-group">
+    <label for="exam">Select Exam:</label>
+    <select class="form-control select-exam" id="exam" (change)="onSelectExam($event)" [formControl]="examFormControl">
+      <option value="" disabled selected>Please select exam</option>
+      <option *ngFor="let exam of exams" [value]="exam.examId">{{ exam.title }}</option>
+    </select>
+  </div>
+
+
+
+  <!-- Add Section Form -->
+  <div *ngIf="selectedExamId">
+    <div class="card mt-4 section-card">
+      <div class="card-header">
+        <h5>Add New Section</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="sectionForm" (ngSubmit)="addSection()">
+          <div class="form-group">
+            <label for="sectionTitle">Section Title</label>
+            <input id="sectionTitle" class="form-control" formControlName="title" placeholder="Enter section title" />
+          </div>
+          <div class="form-group">
+            <label for="numberOfQuestions">Number of Questions</label>
+            <input id="numberOfQuestions" class="form-control" formControlName="numberOfQuestions" type="number" />
+          </div>
+          <div class="form-group">
+            <label for="totalMarks">Total Marks</label>
+            <input id="totalMarks" class="form-control" formControlName="totalMarks" type="number" />
+          </div>
+          <div class="form-group">
+            <label for="passingMarks">Passing Marks</label>
+            <input id="passingMarks" class="form-control" formControlName="passingMarks" type="number" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block mt-3">Add Section</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Display Sections -->
+  <div *ngFor="let section of sections" class="section mt-4">
+    <div class="card section-card">
+      <div class="card-header d-flex justify-content-between align-items-center section-header">
+        <h5>{{ section.title }}</h5>
+        <div>
+          <button class="btn btn-link" (click)="toggleSection(section.sectionId)">
+            {{ isSectionExpanded(section.sectionId) ? 'Minimize' : 'Maximize' }}
+          </button>
+          <button class="btn btn-info btn-sm" (click)="openEditPopup(section)">Edit Section</button>
+          <button class="btn btn-danger btn-sm" (click)="removeSection(section.sectionId)">Remove Section</button>
+        </div>
+      </div>
+
+      <div *ngIf="isSectionExpanded(section.sectionId)" class="card-body section-body">
+        <h6>Questions:</h6>
+        <div *ngFor="let question of section.questions" class="question mt-3">
+          <div class="d-flex justify-content-between align-items-center question-header">
+            <p>{{ question.questionText }}</p>
+            <div>
+              <button class="btn btn-link" (click)="toggleQuestion(question.questionId)">
+                {{ isQuestionExpanded(question.questionId) ? 'Minimize' : 'Maximize' }}
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="removeQuestion(section, question.questionId)">Remove
+                Question</button>
+            </div>
+          </div>
+
+          <div *ngIf="isQuestionExpanded(question.questionId)">
+            <h6>Options:</h6>
+            <ul class="list-group">
+              <li *ngFor="let option of question.options"
+                class="list-group-item d-flex justify-content-between align-items-center">
+                {{ option.optionText }} ({{ option.isCorrect ? 'Correct' : 'Incorrect' }})
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Add New Question Form -->
+        <div class="card mt-3">
+          <div class="card-header">
+            <h5>Add New Question</h5>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="questionForm">
+              <div class="form-group">
+                <label for="questionText">Question Text</label>
+                <input id="questionText" class="form-control" formControlName="questionText"
+                  placeholder="Enter question text" />
+              </div>
+
+              <!-- Add Option Form -->
+              <h6>Add Options:</h6>
+              <form [formGroup]="optionForm" (ngSubmit)="addOption()">
+                <div class="form-group">
+                  <label for="optionText">Option Text</label>
+                  <input id="optionText" class="form-control" formControlName="optionText"
+                    placeholder="Enter option text" />
+                </div>
+                <div class="form-group">
+                  <label for="isCorrect">Is Correct?</label>
+                  <input id="isCorrect" type="checkbox" formControlName="isCorrect" />
+                </div>
+                <button type="submit" class="btn btn-secondary">Add Option</button>
+              </form>
+
+              <!-- Display Options for New Question -->
+              <ul class="list-group mt-3">
+                <li *ngFor="let option of newQuestionOptions"
+                  class="list-group-item d-flex justify-content-between align-items-center">
+                  {{ option.optionText }} ({{ option.isCorrect ? 'Correct' : 'Incorrect' }})
+                  <button class="btn btn-danger btn-sm" (click)="removeNewOption(option.optionText)">Remove
+                    Option</button>
+                </li>
+              </ul>
+
+              <!-- Save Question Button (only enabled if there are options added) -->
+              <button class="btn btn-primary mt-3" [disabled]="newQuestionOptions.length === 0"
+                (click)="saveQuestion(section)">
+                Save Question
+              </button>
+            </form>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Section Popup -->
+  <div *ngIf="isEditMode" class="popup-overlay">
+    <div class="popup">
+      <div class="popup-header">
+        <h5>Edit Section</h5>
+        <button class="btn btn-secondary" (click)="closeEditPopup()">Close</button>
+      </div>
+      <div class="popup-body">
+        <form [formGroup]="editSectionForm" (ngSubmit)="saveEditedSection()">
+          <div class="form-group">
+            <label for="sectionTitle">Section Title</label>
+            <input id="sectionTitle" class="form-control" formControlName="title" placeholder="Enter section title" />
+          </div>
+          <div class="form-group">
+            <label for="numberOfQuestions">Number of Questions</label>
+            <input id="numberOfQuestions" class="form-control" formControlName="numberOfQuestions" type="number" />
+          </div>
+          <div class="form-group">
+            <label for="totalMarks">Total Marks</label>
+            <input id="totalMarks" class="form-control" formControlName="totalMarks" type="number" />
+          </div>
+          <div class="form-group">
+            <label for="passingMarks">Passing Marks</label>
+            <input id="passingMarks" class="form-control" formControlName="passingMarks" type="number" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block mt-3">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

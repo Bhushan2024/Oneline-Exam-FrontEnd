@@ -1,0 +1,160 @@
+<app-admin-navbar></app-admin-navbar>
+
+<div class="container mt-4">
+  <!-- Dropdown for selecting report -->
+  <div class="form-group">
+    <label for="reportSelect">Select Report:</label>
+    <select class="form-control" id="reportSelect" [(ngModel)]="selectedReport" (change)="fetchReportData()">
+      <option value="" disabled>Select a report</option>
+      <option *ngFor="let report of reportOptions" [value]="report.value">
+        {{ report.label }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Show error message if any -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Display the report data in table format -->
+  <div *ngIf="reportData.length > 0 && !isLoading">
+    <!-- Table for 'testsPerDay' -->
+    <div *ngIf="selectedReport === 'testsPerDay'">
+      <table class="table table-bordered mt-4">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Number of Tests</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of reportData">
+            <td>{{ row.date | date: 'shortDate' }}</td>
+            <td>{{ row.numberOfTests }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table for 'finishedBeforeTime' -->
+    <div *ngIf="selectedReport === 'finishedBeforeTime'">
+      <table class="table table-bordered mt-4">
+        <thead>
+          <tr>
+            <th>Exam Result ID</th>
+            <th>User Name</th>
+            <th>User Email</th>
+            <th>Exam Title</th>
+            <th>Total Score</th>
+            <th>Percentage</th>
+            <th>Passed</th>
+            <th>Completed Date</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of reportData">
+            <td>{{ row.examResultId }}</td>
+            <td>{{ row.userName }}</td>
+            <td>{{ row.userEmail }}</td>
+            <td>{{ row.examTitle }}</td>
+            <td>{{ row.totalScore }}</td>
+            <td>{{ row.percentage | number:'1.2-2' }}%</td>
+            <td>
+              <span [ngClass]="{'text-success': row.passed, 'text-danger': !row.passed}">
+                {{ row.passed ? 'Pass' : 'Fail' }}
+              </span>
+            </td>
+            <td>{{ row.completedDate | date: 'short' }}</td>
+            <td>{{ row.duration }} min</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table for 'markedForReview' -->
+    <div *ngIf="selectedReport === 'markedForReview'">
+      <table class="table table-bordered mt-4">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Marked For Review</th>
+            <th>User Name</th>
+            <th>User Email</th>
+            <th>Exam Title</th>
+            <th>Total Score</th>
+            <th>Passed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of reportData">
+            <td>{{ row.completedDate | date: 'shortDate' }}</td>
+            <td>{{ row.markforreview }}</td>
+            <td>{{ row.userName }}</td>
+            <td>{{ row.userEmail }}</td>
+            <td>{{ row.examTitle }}</td>
+            <td>{{ row.totalScore }}</td>
+            <td>
+              <span [ngClass]="{'text-success': row.passed, 'text-danger': !row.passed}">
+                {{ row.passed ? 'Pass' : 'Fail' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table for 'autoSubmitted' -->
+    <div *ngIf="selectedReport === 'autoSubmitted'">
+      <table class="table table-bordered mt-4">
+        <thead>
+          <tr>
+            <th>Exam Result ID</th>
+            <th>User Name</th>
+            <th>User Email</th>
+            <th>Exam Title</th>
+            <th>Total Score</th>
+            <th>Percentage</th>
+            <th>Passed</th>
+            <th>Completed Date</th>
+            <th>Duration</th>
+            <th>Total Questions</th>
+            <th>Attempted Questions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of reportData">
+            <td>{{ row.examResultId }}</td>
+            <td>{{ row.userName }}</td>
+            <td>{{ row.userEmail }}</td>
+            <td>{{ row.examTitle }}</td>
+            <td>{{ row.totalScore }}</td>
+            <td>{{ row.percentage | number:'1.2-2' }}%</td>
+            <td>
+              <span [ngClass]="{'text-success': row.passed, 'text-danger': !row.passed}">
+                {{ row.passed ? 'Pass' : 'Fail' }}
+              </span>
+            </td>
+            <td>{{ row.completedDate | date: 'short' }}</td>
+            <td>{{ row.duration }} min</td>
+            <td>{{ row.totalQuestions }}</td>
+            <td>{{ row.attemptedQuestions }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Button to download CSV -->
+    <div class="text-right">
+      <button class="btn btn-primary" (click)="downloadCSV()">Download CSV</button>
+    </div>
+  </div>
+</div>

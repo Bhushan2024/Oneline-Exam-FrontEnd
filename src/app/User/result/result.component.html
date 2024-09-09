@@ -1,0 +1,67 @@
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Exam Result</h2>
+
+    <!-- Overall Result -->
+    <div class="text-center mb-4">
+        <h3 *ngIf="passed" class="text-success">
+            ✅ Congratulations! You Passed!
+        </h3>
+        <h3 *ngIf="!passed" class="text-danger">
+            ❌ Unfortunately, You Failed.
+        </h3>
+    </div>
+
+    <br>
+    <div class="exam-details mb-4 text-center">
+        <div class="row no-gutters">
+            <div class="col-md-6">
+                <p><strong>Attempt Number:</strong> {{ examResult.attemptNumber }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Total Score:</strong> {{ examResult.totalScore }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Percentage:</strong> {{ examResult.percentage | number:'1.2-2' }}%</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Duration:</strong> {{ examResult.duration }} minutes</p>
+            </div>
+        </div>
+    </div>\
+
+    <!-- Section-wise Results -->
+    <div class="section-results mt-4">
+        <h4>Section-wise Results</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Section ID</th>
+                    <th>Attempted Questions</th>
+                    <th>Correct Answers</th>
+                    <th>Score</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let section of examResult.sectionResults; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ section.sectionId }}</td>
+                    <td>{{ section.attemptedQuestions }}</td>
+                    <td>{{ section.correctAnswers }}</td>
+                    <td>{{ section.sectionScore }}</td>
+                    <td>
+                        <span [ngClass]="{'text-success': section.isPassed, 'text-danger': !section.isPassed}">
+                            {{ section.isPassed ? '✅ Pass' : '❌ Fail' }}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Exit Button -->
+    <div class="text-center mt-4">
+        <button class="btn btn-primary" (click)="exit()">Exit</button>
+    </div>
+</div>

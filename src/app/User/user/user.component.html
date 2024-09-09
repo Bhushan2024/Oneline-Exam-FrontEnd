@@ -1,0 +1,44 @@
+<app-navbar></app-navbar>
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h2 class="mb-4">User Dashboard</h2>
+      </div>
+    </div>
+  
+    <div class="row">
+      <!-- Exam Card -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body text-center">
+            <h5 class="card-title">Exams</h5>
+            <p class="card-text">View and take your upcoming exams.</p>
+            <button class="btn btn-primary" (click)="goToExam()">Go to Exams</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Result Card -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body text-center">
+            <h5 class="card-title">Results</h5>
+            <p class="card-text">Check your exam results and performance.</p>
+            <button class="btn btn-success" (click)="goToResults()">View Results</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Profile Card (Optional) -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body text-center">
+            <h5 class="card-title">Profile</h5>
+            <p class="card-text">View and edit your profile details.</p>
+            <button class="btn btn-info" (click)="goToProfile()">Go to Profile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

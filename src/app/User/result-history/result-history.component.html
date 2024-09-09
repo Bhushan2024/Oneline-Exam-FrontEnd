@@ -1,0 +1,37 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Your Exam Results</h2>
+  
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  
+    <!-- Error message if any -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- Results section -->
+    <div *ngIf="!isLoading && examResults.length > 0">
+      <div class="d-flex flex-wrap justify-content-center">
+        <div *ngFor="let result of examResults" class="result-card m-2 p-3 text-center border rounded" >
+          <h5 class="text-primary">Exam: {{ result.examName }}</h5> <!-- Show the exam title -->
+          <p><strong>Score:</strong> {{ result.totalScore }}</p>
+          <p><strong>Percentage:</strong> {{ result.percentage }}%</p>
+          <p><strong>Passed:</strong> {{ result.passed ? 'Yes' : 'No' }}</p>
+          <p><strong>Duration:</strong> {{ result.duration }} minutes</p>
+          <p><strong>Completed:</strong> {{ result.completedDate | date:'short' }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- No results message -->
+    <div *ngIf="!isLoading && examResults.length === 0" class="alert alert-info text-center">
+      No exam results found.
+    </div>
+  </div>
+  

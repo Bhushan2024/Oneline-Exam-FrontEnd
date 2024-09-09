@@ -1,0 +1,81 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-4">
+  <!-- Timer Display at the Top-Right Corner -->
+  <div class="d-flex justify-content-end">
+    <div class="timer-box bg-warning text-dark p-2 rounded">
+      Time Left: {{ timerDisplay }}
+    </div>
+  </div>
+
+  <h2 class="text-center mb-4">Exam Sections</h2>
+
+  <!-- Section buttons -->
+<div *ngIf="sections.length > 0" class="mb-4">
+  <h4>Select a Section:</h4>
+  <div class="d-flex flex-wrap">
+    <button
+      *ngFor="let section of sections"
+      class="btn m-2 section-btn"
+      [ngClass]="{
+        'selected-section': selectedSection?.sectionId === section.sectionId,
+        'unselected-section': selectedSection?.sectionId !== section.sectionId
+      }"
+      (click)="selectSection(section)">
+      {{ section.title }}
+    </button>
+  </div>
+</div>
+
+
+
+
+  <!-- Filtered Questions as Numbered Boxes -->
+  <div *ngIf="selectedSection && filteredQuestions.length > 0" class="mt-4">
+    <div class="d-flex flex-wrap">
+      <button *ngFor="let question of filteredQuestions; let i = index" class="btn m-2"
+        [ngClass]="getQuestionStatusColor(question)" (click)="currentQuestionIndex = i; selectedQuestion = question">
+        {{ i + 1 }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Display Selected Question and Options -->
+  <div *ngIf="selectedQuestion" class="mt-4">
+    <h5>{{ selectedQuestion?.questionText }}</h5>
+
+    <!-- Single-choice questions -->
+    <div *ngIf="!selectedQuestion?.isMultipleChoice">
+      <div class="form-check" *ngFor="let option of selectedQuestion?.options">
+        <input class="form-check-input" type="radio" [name]="'question' + selectedQuestion?.questionId"
+          [value]="option.optionId" (change)="selectAnswer(option.optionId)" [checked]="isSelected(option.optionId)" />
+        <label class="form-check-label">{{ option.optionText }}</label>
+      </div>
+    </div>
+
+    <!-- Multiple-choice questions -->
+    <div *ngIf="selectedQuestion?.isMultipleChoice">
+      <div class="form-check" *ngFor="let option of selectedQuestion?.options">
+        <input class="form-check-input" type="checkbox" [value]="option.optionId"
+          (change)="selectAnswer(option.optionId)" [checked]="isSelected(option.optionId)" />
+        <label class="form-check-label">{{ option.optionText }}</label>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <button class="btn btn-outline-warning" (click)="markForReview()">Mark for Review</button>
+      <button class="btn btn-outline-secondary" (click)="prevQuestion()" [disabled]="currentQuestionIndex === 0">
+        Previous
+      </button>
+      <button class="btn btn-outline-secondary" (click)="nextQuestion()"
+        [disabled]="currentQuestionIndex === filteredQuestions.length - 1">
+        Next
+      </button>
+    </div>
+  </div>
+
+  <!-- Submit Exam Button -->
+  <div class="d-flex justify-content-end mt-4">
+    <button class="btn btn-danger submit-exam-button " (click)="submitExam()">Submit Exam</button>
+  </div>
+</div>
